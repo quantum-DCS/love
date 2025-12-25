@@ -329,18 +329,23 @@ body {
     #scene-tree {
         flex-direction: column;
         justify-content: flex-start;
+        /* Start from top to avoid cutting bottom */
         align-items: center;
-        padding-top: 40px;
-        max-height: 100vh;
-        overflow: hidden;
-        /* Prevent scrolling */
-        gap: 5px;
+        padding-top: 20px;
+        /* Safe area from top - reduced from 60px */
+        height: 100%;
+        overflow-y: hidden;
+        /* Prevent scroll */
+        gap: 0px;
+        /* Reduced gap since elements are tighter */
     }
 
     .tree-container {
         width: 100%;
-        max-width: 280px;
-        height: 250px;
+        /* Use full width available */
+        max-width: 300px;
+        height: 240px;
+        /* Reduced height from 300px for small screens */
         margin-bottom: 0px;
         transform: none;
         flex-shrink: 0;
@@ -351,57 +356,37 @@ body {
         width: 100%;
         max-width: 350px;
         margin-top: 0;
-        padding-bottom: 30px;
-        flex-shrink: 0;
-    }
-
-    .love-text {
-        font-size: 1.1rem;
-        /* Slightly smaller */
-        margin-bottom: 0.3rem;
+        padding-bottom: 20px;
+        /* Padding for bottom safe area */
     }
 
     .timer-row {
         justify-content: center;
-        margin: 1px 0;
-        /* Reduced margin */
-    }
-
-    .highlight-time {
-        font-size: 2.2rem;
-        /* Reduced */
-    }
-
-    .highlight-time-small {
-        font-size: 1.3rem;
-        /* Reduced */
-    }
-
-    .unit {
-        font-size: 0.9rem;
-    }
-
-    .or-separator {
-        font-size: 0.8rem;
         margin: 2px 0;
     }
 
+    .highlight-time {
+        font-size: 2.5rem;
+    }
+
+    .highlight-time-small {
+        font-size: 1.4rem;
+    }
+
+    .unit {
+        font-size: 1rem;
+    }
+
     .future-text {
-        font-size: 0.85rem;
-        /* Reduced */
+        font-size: 0.9rem;
         text-align: center;
         padding: 0 10px;
-        margin-top: 0.5rem;
-        /* Reduced */
-        margin-bottom: 0.3rem;
+        margin-top: 1rem;
     }
 
     .merry-christmas {
-        font-size: 1.8rem;
-        /* Further reduced */
-        margin-top: 5px;
-        /* Reduced */
-        margin-bottom: 10px;
+        font-size: 2rem;
+        margin-top: 10px;
     }
 }
 
@@ -789,90 +774,4 @@ body {
     height: 100%;
     pointer-events: none;
     z-index: 0;
-}
-
-/* Responsiveness */
-@media (max-width: 600px) {
-
-    /* Calendar Fix */
-    .calendar-wrapper {
-        transform: scale(0.85);
-    }
-
-    .calendar-card {
-        width: 280px;
-        /* Force fixed width to match rings */
-    }
-
-
-    /* Love Header Fix */
-    .love-header {
-        position: relative;
-        /* Change from absolute to relative for mobile */
-        width: 100%;
-        justify-content: center;
-        gap: 15px;
-        /* Increased gap between elements */
-        top: auto;
-        left: auto;
-        transform: none;
-        margin-bottom: 20px;
-    }
-
-    .name-left,
-    .name-right {
-        font-size: 1.4rem;
-        white-space: nowrap;
-    }
-
-    .css-heart {
-        margin-top: 5px;
-        /* Adjust vertical alignment */
-    }
-
-    /* Tree Scene Fix */
-    #scene-tree {
-        flex-direction: column;
-        justify-content: flex-start;
-        align-items: center;
-        padding-top: 30px;
-        gap: 20px;
-    }
-
-    .tree-container {
-        width: 300px;
-        height: 350px;
-        margin-bottom: 0px;
-        transform: none;
-        flex-shrink: 0;
-    }
-
-    /* Message Container Alignment */
-    .message-container {
-        width: 90%;
-        max-width: 400px;
-        margin-top: 1rem;
-    }
-
-    .timer-row {
-        justify-content: center;
-    }
-
-    .highlight-time {
-        font-size: 2.8rem;
-    }
-
-    .highlight-time-small {
-        font-size: 1.6rem;
-    }
-
-    .future-text {
-        font-size: 1rem;
-        text-align: center;
-        padding: 0 20px;
-    }
-
-    .merry-christmas {
-        font-size: 2.5rem;
-    }
 }
