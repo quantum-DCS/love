@@ -291,39 +291,37 @@ body {
 
     /* Love Header Fix */
     .love-header {
-        position: relative;
+        position: relative !important;
         width: 100%;
-        display: flex;
-        /* Enforce flex */
+        display: flex !important;
         justify-content: center;
         align-items: center;
-        /* Strict vertical center */
-        gap: 8px;
-        /* Reduce gap slightly for narrow screens */
-        top: auto;
-        left: auto;
-        transform: none;
+        gap: 12px;
+        top: auto !important;
+        left: auto !important;
+        transform: none !important;
         margin-bottom: 10px;
         padding-top: 20px;
+        animation: none !important;
+        opacity: 1 !important;
     }
 
     .name-left,
     .name-right {
         font-size: 1.3rem;
-        /* Slightly smaller */
         line-height: 1;
         white-space: nowrap;
         display: inline-block;
         vertical-align: middle;
+        transform: none !important;
     }
 
     .css-heart {
-        transform: rotate(-45deg) scale(0.8);
-        /* Scale down heart slightly */
-        margin-top: 0;
-        /* Reset margin */
-        margin-bottom: 0;
-        display: inline-block;
+        width: 25px;
+        height: 25px;
+        transform: rotate(-45deg) !important;
+        margin: 0;
+        flex-shrink: 0;
     }
 
 
