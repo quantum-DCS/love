@@ -524,25 +524,39 @@ body {
         /* Force fixed width to match rings */
     }
 
+
     /* Love Header Fix */
     .love-header {
+        position: relative;
+        /* Change from absolute to relative for mobile */
         width: 100%;
         justify-content: center;
-        gap: 10px;
+        gap: 15px;
+        /* Increased gap between elements */
+        top: auto;
+        left: auto;
+        transform: none;
+        margin-bottom: 20px;
     }
 
     .name-left,
     .name-right {
-        font-size: 1.5rem;
+        font-size: 1.4rem;
         white-space: nowrap;
+    }
+
+    .css-heart {
+        margin-top: 5px;
+        /* Adjust vertical alignment */
     }
 
     /* Tree Scene Fix */
     #scene-tree {
         flex-direction: column;
-        justify-content: center;
-        padding-top: 50px;
-        /* Space for header */
+        justify-content: flex-start;
+        align-items: center;
+        padding-top: 30px;
+        gap: 20px;
     }
 
     .tree-container {
@@ -550,11 +564,32 @@ body {
         height: 350px;
         margin-bottom: 0px;
         transform: none;
-        /* handle size via width/height */
+        flex-shrink: 0;
     }
 
-    .counter {
-        font-size: 2rem;
+    /* Message Container Alignment */
+    .message-container {
+        width: 90%;
+        max-width: 400px;
+        margin-top: 1rem;
+    }
+
+    .timer-row {
+        justify-content: center;
+    }
+
+    .highlight-time {
+        font-size: 2.8rem;
+    }
+
+    .highlight-time-small {
+        font-size: 1.6rem;
+    }
+
+    .future-text {
+        font-size: 1rem;
+        text-align: center;
+        padding: 0 20px;
     }
 
     .merry-christmas {

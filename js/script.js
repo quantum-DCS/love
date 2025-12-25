@@ -219,7 +219,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const particles = [];
         const particleCount = 1200; // Increased count for density
 
-        // Create Spiral Tree
+        // Create Spiral Tree with enhanced visuals
         for (let i = 0; i < particleCount; i++) {
             // p goes from 0 (bottom) to 1 (top)
             const p = i / particleCount;
@@ -251,25 +251,51 @@ document.addEventListener('DOMContentLoaded', () => {
             const normH = (h + (200 * scaleFactor)) / (400 * scaleFactor);
             const radius = normH * 160 * scaleFactor;
 
+            // Enhanced color palette
+            let color;
+            const colorRand = Math.random();
+            if (colorRand > 0.98) {
+                color = '#ff6b9d'; // Pink ornaments
+            } else if (colorRand > 0.96) {
+                color = '#4fc3f7'; // Blue ornaments
+            } else if (colorRand > 0.93) {
+                color = '#f8b229'; // Gold ornaments
+            } else if (colorRand > 0.90) {
+                color = '#ef5350'; // Red ornaments
+            } else if (colorRand > 0.6) {
+                color = `hsl(140, ${60 + Math.random() * 40}%, ${25 + Math.random() * 35}%)`; // Green variations
+            } else {
+                color = `rgba(255, 255, 255, ${0.6 + Math.random() * 0.4})`; // White/silver
+            }
+
+            // Some particles are ornaments (larger)
+            const isOrnament = Math.random() > 0.97;
+            const isTwinkling = Math.random() > 0.85;
+
             particles.push({
                 x: Math.cos(angle) * (radius + Math.random() * 10),
                 y: h + Math.random() * 10,
                 z: Math.sin(angle) * (radius + Math.random() * 10),
-                color: Math.random() > 0.95 ? '#f8b229' : (Math.random() > 0.6 ? `hsl(140, 80%, ${30 + Math.random() * 30}%)` : '#ffffff'),
-                size: (Math.random() * 2 + 0.5) * scaleFactor,
-                originalY: h
+                color: color,
+                size: isOrnament ? (4 + Math.random() * 3) * scaleFactor : (Math.random() * 2 + 0.5) * scaleFactor,
+                originalY: h,
+                isOrnament: isOrnament,
+                isTwinkling: isTwinkling,
+                twinklePhase: Math.random() * Math.PI * 2
             });
         }
 
-        // Add Star
+        // Add Star with glow
         particles.push({
             x: 0, y: (-210 * scaleFactor), z: 0,
-            color: '#f8b229',
-            size: 10 * scaleFactor,
-            isStar: true
+            color: '#ffd700',
+            size: 12 * scaleFactor,
+            isStar: true,
+            twinklePhase: 0
         });
 
         let angleOffset = 0;
+        let time = 0;
 
         function renderTree() {
             tCtx.clearRect(0, 0, tWidth, tHeight);
@@ -298,26 +324,60 @@ document.addEventListener('DOMContentLoaded', () => {
                 const y2d = p.y * scale + centerY;
 
                 // Draw
-                const alpha = (rz + 250) / 500; // Fade back particles
-                tCtx.globalAlpha = Math.max(0.1, Math.min(1, alpha + 0.2));
+                let alpha = (rz + 250) / 500; // Fade back particles
+                alpha = Math.max(0.1, Math.min(1, alpha + 0.2));
 
-                // Star glow or distinct colors
-                tCtx.fillStyle = p.isStar ? '#ffd700' : p.color;
+                // Twinkling effect
+                if (p.isTwinkling) {
+                    alpha *= 0.5 + 0.5 * Math.sin(time * 3 + p.twinklePhase);
+                }
 
-                tCtx.beginPath();
-                tCtx.arc(x2d, y2d, p.size * scale * (p.isStar ? 1.5 : 1), 0, Math.PI * 2);
-                tCtx.fill();
+                tCtx.globalAlpha = alpha;
 
+                // Star special rendering
                 if (p.isStar) {
-                    // Star glow
-                    tCtx.shadowBlur = 30;
+                    const starGlow = 0.3 + 0.7 * (0.5 + 0.5 * Math.sin(time * 2));
+                    tCtx.shadowBlur = 40 * starGlow;
                     tCtx.shadowColor = '#ffd700';
+                    tCtx.fillStyle = '#ffd700';
+
+                    // Draw star as a multi-point shape
+                    tCtx.beginPath();
+                    tCtx.arc(x2d, y2d, p.size * scale * (1 + starGlow * 0.2), 0, Math.PI * 2);
                     tCtx.fill();
                     tCtx.shadowBlur = 0;
+                } else if (p.isOrnament) {
+                    // Ornaments have extra shine
+                    tCtx.fillStyle = p.color;
+                    tCtx.beginPath();
+                    tCtx.arc(x2d, y2d, p.size * scale, 0, Math.PI * 2);
+                    tCtx.fill();
+
+                    // Add highlight
+                    const gradient = tCtx.createRadialGradient(
+                        x2d - p.size * scale * 0.3,
+                        y2d - p.size * scale * 0.3,
+                        0,
+                        x2d,
+                        y2d,
+                        p.size * scale
+                    );
+                    gradient.addColorStop(0, 'rgba(255, 255, 255, 0.8)');
+                    gradient.addColorStop(0.4, 'rgba(255, 255, 255, 0.2)');
+                    gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
+                    tCtx.fillStyle = gradient;
+                    tCtx.fill();
+                } else {
+                    // Regular particles
+                    tCtx.fillStyle = p.color;
+                    tCtx.beginPath();
+                    tCtx.arc(x2d, y2d, p.size * scale, 0, Math.PI * 2);
+                    tCtx.fill();
                 }
             });
 
             angleOffset += 0.015;
+            time += 0.05;
             requestAnimationFrame(renderTree);
         }
 
