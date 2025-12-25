@@ -1,0 +1,494 @@
+:root {
+    --primary-red: #d42426;
+    --primary-green: #165b33;
+    --gold: #f8b229;
+    --bg-dark: #0f0c29;
+    --bg-gradient: linear-gradient(to bottom, #0f0c29, #302b63, #24243e);
+    --text-light: #f1f1f1;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Outfit', sans-serif;
+    background: var(--bg-gradient);
+    color: var(--text-light);
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    perspective: 1000px;
+}
+
+/* Scene Management */
+.scene {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 1s ease-in-out;
+    z-index: 1;
+}
+
+.scene.active {
+    opacity: 1;
+    pointer-events: all;
+    z-index: 10;
+}
+
+/* Gift Box Scene */
+.gift-container {
+    cursor: pointer;
+    text-align: center;
+    transition: transform 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.gift-container:hover {
+    transform: scale(1.1) rotate(-5deg);
+}
+
+.gift-container.open {
+    animation: giftOpen 1s forwards ease-out;
+}
+
+@keyframes giftOpen {
+    0% {
+        transform: scale(1);
+    }
+
+    30% {
+        transform: scale(1.3) rotate(10deg);
+    }
+
+    60% {
+        transform: scale(1.5) rotate(-5deg);
+    }
+
+    100% {
+        transform: scale(0);
+        opacity: 0;
+    }
+}
+
+.gift-emoji {
+    font-size: 150px;
+    filter: drop-shadow(0 10px 30px rgba(0, 0, 0, 0.5));
+    animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-15px);
+    }
+}
+
+.instruction-text {
+    margin-top: 2rem;
+    font-size: 1.2rem;
+    opacity: 0.8;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        opacity: 0.5;
+    }
+
+    50% {
+        opacity: 1;
+    }
+}
+
+
+/* Calendar Scene */
+.calendar-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+.calendar-rings {
+    position: absolute;
+    top: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 50px;
+    z-index: 10;
+}
+
+.ring {
+    width: 30px;
+    height: 30px;
+    border: 4px solid #888;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #666 0%, #999 50%, #aaa 100%);
+    box-shadow:
+        inset 0 2px 5px rgba(0, 0, 0, 0.3),
+        0 2px 5px rgba(0, 0, 0, 0.2);
+    position: relative;
+}
+
+.ring::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 12px;
+    height: 12px;
+    background: #333;
+    border-radius: 50%;
+}
+
+.calendar-card {
+    background: white;
+    color: #333;
+    padding: 2.5rem 2rem 2rem 2rem;
+    border-radius: 0 0 15px 15px;
+    width: 280px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    position: relative;
+    overflow: visible;
+}
+
+.calendar-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 30px;
+    background: var(--primary-red);
+    border-radius: 0;
+}
+
+/* Perforation effect at top */
+.calendar-card::after {
+    content: '';
+    position: absolute;
+    top: 30px;
+    left: 0;
+    width: 100%;
+    height: 8px;
+    background-image: repeating-linear-gradient(90deg,
+            transparent,
+            transparent 8px,
+            #ddd 8px,
+            #ddd 10px);
+}
+
+.calendar-month {
+    font-size: 1.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--primary-red);
+    margin-top: 20px;
+}
+
+.calendar-day {
+    font-size: 6rem;
+    font-weight: 700;
+    line-height: 1;
+    margin: 10px 0;
+}
+
+.calendar-year {
+    font-size: 1.5rem;
+    color: #666;
+}
+
+/* Falling Page Animation */
+.calendar-tear {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: white;
+    border-radius: 0 0 15px 15px;
+    padding: 2.5rem 2rem 2rem 2rem;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    z-index: 5;
+    transform-origin: top left;
+    animation: tearDrop 0.7s forwards cubic-bezier(0.4, 0, 1, 1);
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+    backface-visibility: visible;
+}
+
+/* Red header on tear */
+.calendar-tear::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 30px;
+    background: var(--primary-red);
+}
+
+/* Torn edge effect */
+.calendar-tear::after {
+    content: '';
+    position: absolute;
+    top: 30px;
+    left: 0;
+    width: 100%;
+    height: 5px;
+    background-image: repeating-linear-gradient(90deg,
+            #ddd,
+            #ddd 3px,
+            transparent 3px,
+            transparent 8px);
+}
+
+.calendar-tear .calendar-month {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--primary-red);
+    text-transform: uppercase;
+    margin-top: 20px;
+}
+
+.calendar-tear .calendar-day {
+    font-size: 6rem;
+    font-weight: 700;
+    line-height: 1;
+    color: #333;
+}
+
+.calendar-tear .calendar-year {
+    font-size: 1.5rem;
+    color: #666;
+}
+
+@keyframes tearDrop {
+    0% {
+        transform: perspective(1000px) rotateY(0deg) rotateZ(0deg) translate(0, 0);
+        opacity: 1;
+    }
+
+    30% {
+        transform: perspective(1000px) rotateY(-20deg) rotateZ(10deg) translate(30px, -20px);
+        opacity: 1;
+    }
+
+    100% {
+        transform: perspective(1000px) rotateY(-80deg) rotateZ(35deg) translate(250px, -180px) scale(0.8);
+        opacity: 0;
+    }
+}
+
+
+
+
+/* Tree Scene */
+/* Love Header */
+.love-header {
+    position: absolute;
+    top: 50px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    z-index: 100;
+    opacity: 0;
+    animation: fadeInHeader 2s forwards 2s;
+}
+
+@keyframes fadeInHeader {
+    from {
+        opacity: 0;
+        transform: translateX(-50%) translateY(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+}
+
+.name-left,
+.name-right {
+    font-family: 'Outfit', sans-serif;
+    font-size: 2rem;
+    font-weight: 500;
+    color: var(--text-light);
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5), 0 0 20px rgba(255, 255, 255, 0.3);
+    letter-spacing: 2px;
+}
+
+/* CSS Heart */
+.css-heart {
+    position: relative;
+    width: 30px;
+    height: 30px;
+    background: #ff6b9d;
+    transform: rotate(-45deg);
+    animation: heartbeat 1.5s infinite;
+    margin-top: 10px;
+    /* Adjust alignment */
+    box-shadow: -5px 5px 20px rgba(255, 107, 157, 0.4);
+}
+
+.css-heart::before,
+.css-heart::after {
+    content: '';
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: #ff6b9d;
+}
+
+.css-heart::before {
+    top: -15px;
+    left: 0;
+}
+
+.css-heart::after {
+    left: 15px;
+    top: 0;
+}
+
+@keyframes heartbeat {
+    0% {
+        transform: scale(1) rotate(-45deg);
+    }
+
+    10% {
+        transform: scale(1.1) rotate(-45deg);
+    }
+
+    20% {
+        transform: scale(1) rotate(-45deg);
+    }
+
+    30% {
+        transform: scale(1.1) rotate(-45deg);
+    }
+
+    40% {
+        transform: scale(1) rotate(-45deg);
+    }
+
+    100% {
+        transform: scale(1) rotate(-45deg);
+    }
+}
+
+.tree-container {
+    position: relative;
+    width: 400px;
+    height: 500px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 0;
+}
+
+#geekTreeCanvas {
+    width: 100%;
+    height: 100%;
+}
+
+.message-container {
+    text-align: center;
+    z-index: 5;
+    margin-top: 2rem;
+}
+
+.love-text {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.love-text-small {
+    font-size: 1rem;
+    opacity: 0.8;
+}
+
+.counter {
+    font-size: 3rem;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    color: var(--gold);
+    text-shadow: 0 0 10px rgba(248, 178, 41, 0.5);
+    margin: 10px 0;
+}
+
+.merry-christmas {
+    font-family: 'Great Vibes', cursive;
+    font-size: 4rem;
+    color: var(--primary-red);
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5), 0 0 20px var(--primary-red);
+    margin-top: 20px;
+    opacity: 0;
+    animation: fadeInUp 2s forwards 1s;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+#snowCanvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* Responsiveness */
+@media (max-width: 600px) {
+    .calendar-card {
+        width: 80%;
+    }
+
+    .tree-container {
+        transform: scale(0.8);
+    }
+
+    .counter {
+        font-size: 2rem;
+    }
+
+    .merry-christmas {
+        font-size: 3rem;
+    }
+}

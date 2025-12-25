@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Christmas Surprise</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Outfit:wght@300;500;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <div id="app">
+        <!-- Scene 1: Gift Box -->
+        <div id="scene-gift" class="scene active">
+            <div class="gift-container" id="giftBox">
+                <div class="gift-emoji">🎁</div>
+                <p class="instruction-text">点击打开惊喜 ✨</p>
+            </div>
+        </div>
+
+        <!-- Scene 2: Calendar -->
+        <div id="scene-calendar" class="scene">
+            <div class="calendar-wrapper">
+                <div class="calendar-rings">
+                    <div class="ring"></div>
+                    <div class="ring"></div>
+                    <div class="ring"></div>
+                    <div class="ring"></div>
+                </div>
+                <div class="calendar-card">
+                    <div class="calendar-month" id="calMonth">JAN</div>
+                    <div class="calendar-day" id="calDay">20</div>
+                    <div class="calendar-year" id="calYear">2025</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scene 3: Tree & Message -->
+        <div id="scene-tree" class="scene">
+            <div class="love-header">
+                <span class="name-left">董传晟</span>
+                <div class="css-heart"></div>
+                <span class="name-right">张迪</span>
+            </div>
+
+            <div class="tree-container">
+                <canvas id="geekTreeCanvas"></canvas>
+            </div>
+
+            <div class="message-container">
+                <p class="love-text">我们已经在一起</p>
+                <div class="counter" id="timer">000,000,000</div>
+                <p class="love-text-small">秒</p>
+                <p class="merry-christmas">Merry Christmas!</p>
+            </div>
+        </div>
+
+        <canvas id="snowCanvas"></canvas>
+    </div>
+
+    <!-- Audio Element -->
+    <audio id="bgMusic" loop>
+        <source src="assets/music.mp3" type="audio/mpeg">
+        <!-- Fallback if file not present, or browser doesn't support -->
+        Your browser does not support the audio element.
+    </audio>
+
+    <script src="js/script.js"></script>
+</body>
+
+</html>
