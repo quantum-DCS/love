@@ -417,6 +417,13 @@ body {
     }
 }
 
+/* Calendar Scene Base */
+.calendar-wrapper {
+    position: relative;
+    display: inline-block;
+    /* Ensure it wraps the relative card */
+}
+
 .calendar-rings {
     position: absolute;
     top: -15px;
