@@ -329,22 +329,24 @@ body {
     #scene-tree {
         flex-direction: column;
         justify-content: flex-start;
-        /* Start from top to avoid cutting bottom */
         align-items: center;
-        padding-top: 60px;
-        /* Safe area from top */
-        height: 100%;
-        overflow-y: hidden;
-        /* Prevent scroll */
-        gap: 10px;
+        padding-top: 40px;
+        /* Reduced from 60px */
+        height: 100vh;
+        /* Use viewport height */
+        overflow-y: auto;
+        /* Allow scroll if needed */
+        overflow-x: hidden;
+        gap: 5px;
+        /* Reduced gap */
     }
 
     .tree-container {
         width: 100%;
-        /* Use full width available */
-        max-width: 300px;
-        height: 300px;
-        /* Reduced height */
+        max-width: 280px;
+        /* Slightly smaller */
+        height: 250px;
+        /* Further reduced */
         margin-bottom: 0px;
         transform: none;
         flex-shrink: 0;
@@ -355,37 +357,57 @@ body {
         width: 100%;
         max-width: 350px;
         margin-top: 0;
-        padding-bottom: 20px;
-        /* Padding for bottom safe area */
+        padding-bottom: 30px;
+        /* Increased bottom padding for safety */
+    }
+
+    .love-text {
+        font-size: 1.1rem;
+        /* Slightly smaller */
+        margin-bottom: 0.3rem;
     }
 
     .timer-row {
         justify-content: center;
-        margin: 2px 0;
+        margin: 1px 0;
+        /* Reduced margin */
     }
 
     .highlight-time {
-        font-size: 2.5rem;
+        font-size: 2.2rem;
+        /* Reduced */
     }
 
     .highlight-time-small {
-        font-size: 1.4rem;
+        font-size: 1.3rem;
+        /* Reduced */
     }
 
     .unit {
-        font-size: 1rem;
+        font-size: 0.9rem;
+    }
+
+    .or-separator {
+        font-size: 0.8rem;
+        margin: 2px 0;
     }
 
     .future-text {
-        font-size: 0.9rem;
+        font-size: 0.85rem;
+        /* Reduced */
         text-align: center;
         padding: 0 10px;
-        margin-top: 1rem;
+        margin-top: 0.5rem;
+        /* Reduced */
+        margin-bottom: 0.3rem;
     }
 
     .merry-christmas {
-        font-size: 2rem;
-        margin-top: 10px;
+        font-size: 1.8rem;
+        /* Further reduced */
+        margin-top: 5px;
+        /* Reduced */
+        margin-bottom: 10px;
     }
 }
 
