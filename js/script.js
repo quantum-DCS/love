@@ -90,6 +90,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         giftBox.classList.add('open');
+        document.getElementById('instructionText').classList.add('fade-out'); // Fade out text
 
         setTimeout(() => {
             switchScene(sceneGift, sceneCalendar);

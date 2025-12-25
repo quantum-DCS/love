@@ -48,62 +48,220 @@ body {
 }
 
 /* Gift Box Scene */
+/* Gift Box Scene */
 .gift-container {
     cursor: pointer;
     text-align: center;
-    transition: transform 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    position: relative;
+    width: 200px;
+    height: 200px;
+    display: flex;
+    /* Center inner items */
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 .gift-container:hover {
-    transform: scale(1.1) rotate(-5deg);
+    transform: scale(1.05);
+    /* Subtle hover scale */
 }
 
+/* Light Burst */
+.glow-light {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background: radial-gradient(circle, #fff 0%, #fff7d6 40%, rgba(255, 255, 255, 0) 70%);
+    border-radius: 50%;
+    z-index: 5;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* Gift Lid */
+.gift-lid {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 220px;
+    height: 50px;
+    background: #d62f3a;
+    border-radius: 10px;
+    z-index: 10;
+    left: 50%;
+    transform: translateX(-50%);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    /* Ribbon Styles */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Lid vertical ribbon */
+.gift-lid::before {
+    content: '';
+    position: absolute;
+    width: 30px;
+    height: 100%;
+    background: #ffd700;
+}
+
+/* Gift Body */
+.gift-body {
+    position: absolute;
+    bottom: 0px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 200px;
+    height: 150px;
+    background: #c21e2b;
+    border-radius: 0 0 10px 10px;
+    z-index: 8;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+/* Body vertical ribbon */
+.gift-body::before {
+    content: '';
+    position: absolute;
+    width: 30px;
+    height: 100%;
+    background: #ffd700;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+/* Bows */
+.ribbon-bow-left,
+.ribbon-bow-right {
+    position: absolute;
+    top: -25px;
+    width: 40px;
+    height: 40px;
+    border: 5px solid #ffd700;
+    border-radius: 50% 50% 0 50%;
+    z-index: 12;
+}
+
+.ribbon-bow-left {
+    left: 40%;
+    transform: rotate(45deg);
+}
+
+.ribbon-bow-right {
+    right: 40%;
+    transform: rotate(135deg) scaleX(-1);
+    border-radius: 50% 50% 50% 0;
+    /* Adjust for symmetry illusion */
+}
+
+/* OPENING ANIMATION */
 .gift-container.open {
-    animation: giftOpen 1s forwards ease-out;
+    /* Scale entire container to simulate camera zoom in */
+    animation: zoomInCamera 1.5s forwards ease-in-out;
 }
 
-@keyframes giftOpen {
+.gift-container.open .gift-lid {
+    animation: flyUpLid 1s forwards ease-out;
+}
+
+.gift-container.open .gift-body {
+    animation: flyDownBody 1s forwards ease-out;
+}
+
+.gift-container.open .instruction-text {
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.gift-container.open .glow-light {
+    animation: lightBurst 1.2s forwards ease-in;
+}
+
+@keyframes flyUpLid {
     0% {
-        transform: scale(1);
-    }
-
-    30% {
-        transform: scale(1.3) rotate(10deg);
-    }
-
-    60% {
-        transform: scale(1.5) rotate(-5deg);
+        transform: translateX(-50%) translateY(0) rotate(0);
     }
 
     100% {
-        transform: scale(0);
+        transform: translateX(-50%) translateY(-300px) rotate(-20deg);
         opacity: 0;
     }
 }
 
-.gift-emoji {
-    font-size: 150px;
-    filter: drop-shadow(0 10px 30px rgba(0, 0, 0, 0.5));
-    animation: float 3s ease-in-out infinite;
+@keyframes flyDownBody {
+    0% {
+        transform: translateX(-50%) translateY(0);
+    }
+
+    100% {
+        transform: translateX(-50%) translateY(300px);
+        opacity: 0;
+    }
 }
 
-@keyframes float {
+@keyframes zoomInCamera {
+    0% {
+        transform: scale(1);
+    }
 
-    0%,
+    60% {
+        transform: scale(2);
+    }
+
     100% {
-        transform: translateY(0);
+        transform: scale(5);
+        opacity: 0;
+    }
+}
+
+@keyframes lightBurst {
+    0% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 0;
     }
 
     50% {
-        transform: translateY(-15px);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translate(-50%, -50%) scale(100);
+        opacity: 1;
+        background: #fff;
     }
 }
 
+
+.gift-scene-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+}
+
 .instruction-text {
-    margin-top: 2rem;
+    margin-top: 5rem;
+    /* More space between box and text */
     font-size: 1.2rem;
     opacity: 0.8;
     animation: pulse 2s infinite;
+    transition: opacity 0.5s;
+    color: #fff;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    z-index: 20;
+    /* Ensure on top */
+}
+
+.instruction-text.fade-out {
+    opacity: 0;
+    animation: none;
 }
 
 @keyframes pulse {
@@ -119,10 +277,118 @@ body {
 }
 
 
-/* Calendar Scene */
-.calendar-wrapper {
-    position: relative;
-    display: inline-block;
+/* Responsiveness Updates */
+@media (max-width: 600px) {
+
+    /* Calendar Fix */
+    .calendar-wrapper {
+        transform: scale(0.85);
+    }
+
+    .calendar-card {
+        width: 280px;
+    }
+
+    /* Love Header Fix */
+    .love-header {
+        position: relative;
+        width: 100%;
+        display: flex;
+        /* Enforce flex */
+        justify-content: center;
+        align-items: center;
+        /* Strict vertical center */
+        gap: 8px;
+        /* Reduce gap slightly for narrow screens */
+        top: auto;
+        left: auto;
+        transform: none;
+        margin-bottom: 10px;
+        padding-top: 20px;
+    }
+
+    .name-left,
+    .name-right {
+        font-size: 1.3rem;
+        /* Slightly smaller */
+        line-height: 1;
+        white-space: nowrap;
+        display: inline-block;
+        vertical-align: middle;
+    }
+
+    .css-heart {
+        transform: rotate(-45deg) scale(0.8);
+        /* Scale down heart slightly */
+        margin-top: 0;
+        /* Reset margin */
+        margin-bottom: 0;
+        display: inline-block;
+    }
+
+
+    /* Tree Scene Fix */
+    #scene-tree {
+        flex-direction: column;
+        justify-content: flex-start;
+        /* Start from top to avoid cutting bottom */
+        align-items: center;
+        padding-top: 60px;
+        /* Safe area from top */
+        height: 100%;
+        overflow-y: hidden;
+        /* Prevent scroll */
+        gap: 10px;
+    }
+
+    .tree-container {
+        width: 100%;
+        /* Use full width available */
+        max-width: 300px;
+        height: 300px;
+        /* Reduced height */
+        margin-bottom: 0px;
+        transform: none;
+        flex-shrink: 0;
+    }
+
+    /* Message Container Alignment */
+    .message-container {
+        width: 100%;
+        max-width: 350px;
+        margin-top: 0;
+        padding-bottom: 20px;
+        /* Padding for bottom safe area */
+    }
+
+    .timer-row {
+        justify-content: center;
+        margin: 2px 0;
+    }
+
+    .highlight-time {
+        font-size: 2.5rem;
+    }
+
+    .highlight-time-small {
+        font-size: 1.4rem;
+    }
+
+    .unit {
+        font-size: 1rem;
+    }
+
+    .future-text {
+        font-size: 0.9rem;
+        text-align: center;
+        padding: 0 10px;
+        margin-top: 1rem;
+    }
+
+    .merry-christmas {
+        font-size: 2rem;
+        margin-top: 10px;
+    }
 }
 
 .calendar-rings {
