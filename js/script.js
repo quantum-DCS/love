@@ -175,20 +175,24 @@ document.addEventListener('DOMContentLoaded', () => {
         updateTimer();
         // Then every second (or faster for "ticking" effect)
         setInterval(updateTimer, 100);
-        // 100ms update for smooth seconds if we showed decimals, 
-        // but even for integers it feels more responsive.
     }
+
+    const daysDisplay = document.getElementById('daysTimer');
+    const secondsDisplay = document.getElementById('secondsTimer');
 
     function updateTimer() {
         const now = new Date();
         const diff = now - START_DATE;
-        // Convert to seconds
-        const seconds = Math.floor(diff / 1000);
+        // Total Seconds
+        const totalSeconds = Math.floor(diff / 1000);
+        // Days
+        const days = Math.floor(totalSeconds / (3600 * 24));
 
-        // Format with commas
-        timerDisplay.textContent = seconds.toLocaleString();
+        daysDisplay.textContent = days.toLocaleString();
+        secondsDisplay.textContent = totalSeconds.toLocaleString();
     }
 
+    // --- Geek Tree Logic ---
     // --- Geek Tree Logic ---
     function initGeekTree() {
         const tCanvas = document.getElementById('geekTreeCanvas');
@@ -196,14 +200,21 @@ document.addEventListener('DOMContentLoaded', () => {
         // Make sure canvas is clear & sized
         tCtx.clearRect(0, 0, tCanvas.width, tCanvas.height);
 
-        const tWidth = 400; // Match CSS container roughly, but we render highres
-        const tHeight = 500;
+        // Dynamic sizing based on container
+        const container = document.querySelector('.tree-container');
+        const tWidth = container.clientWidth || 400;
+        const tHeight = container.clientHeight || 500;
 
         // Handle High DPI
         const dpr = window.devicePixelRatio || 1;
         tCanvas.width = tWidth * dpr;
         tCanvas.height = tHeight * dpr;
         tCtx.scale(dpr, dpr);
+
+        // Re-calculate scales for mobile
+        const isMobile = tWidth < 350;
+        const scaleFactor = isMobile ? 0.7 : 1;
+        const yOffset = isMobile ? 100 : 200;
 
         const particles = [];
         const particleCount = 1200; // Increased count for density
@@ -232,27 +243,29 @@ document.addEventListener('DOMContentLoaded', () => {
             // h = -200 to 200
 
             // Let's use linear distribution for height, but mapped to cone
-            const h = (p * 400) - 200; // -200 (top) to 200 (bottom)
-            // Radius depends on h. At -200 radius is small. At 200 radius is big.
+            // For mobile, reduce height range
+            const h = ((p * 400) - 200) * scaleFactor;
+
             // Normalize h to 0..1 range for radius calc
-            const normH = (h + 200) / 400;
-            const radius = normH * 160;
+            // Adjusted for scaling: max H is 200*scaleFactor
+            const normH = (h + (200 * scaleFactor)) / (400 * scaleFactor);
+            const radius = normH * 160 * scaleFactor;
 
             particles.push({
                 x: Math.cos(angle) * (radius + Math.random() * 10),
                 y: h + Math.random() * 10,
                 z: Math.sin(angle) * (radius + Math.random() * 10),
                 color: Math.random() > 0.95 ? '#f8b229' : (Math.random() > 0.6 ? `hsl(140, 80%, ${30 + Math.random() * 30}%)` : '#ffffff'),
-                size: Math.random() * 2 + 0.5,
+                size: (Math.random() * 2 + 0.5) * scaleFactor,
                 originalY: h
             });
         }
 
         // Add Star
         particles.push({
-            x: 0, y: -210, z: 0,
+            x: 0, y: (-210 * scaleFactor), z: 0,
             color: '#f8b229',
-            size: 10,
+            size: 10 * scaleFactor,
             isStar: true
         });
 
@@ -262,7 +275,7 @@ document.addEventListener('DOMContentLoaded', () => {
             tCtx.clearRect(0, 0, tWidth, tHeight);
 
             const centerX = tWidth / 2;
-            const centerY = tHeight / 2 + 30;
+            const centerY = tHeight / 2 + (30 * scaleFactor);
 
             // Sort by depth for correct occlusion (painters algorithm)
             particles.sort((a, b) => b.rotatedZ - a.rotatedZ);

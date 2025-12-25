@@ -421,25 +421,62 @@ body {
     text-align: center;
     z-index: 5;
     margin-top: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .love-text {
     font-size: 1.5rem;
     margin-bottom: 0.5rem;
+    color: #ffd700;
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
 }
 
-.love-text-small {
-    font-size: 1rem;
+.timer-row {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    margin: 5px 0;
+}
+
+.highlight-time {
+    font-size: 3.5rem;
+    font-weight: 700;
+    color: var(--primary-red);
+    /* Highlight days in Red or White? Let's go Gold/White hybrid */
+    color: #f1f1f1;
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
+    font-variant-numeric: tabular-nums;
+    line-height: 1;
+}
+
+.highlight-time-small {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--gold);
+    font-variant-numeric: tabular-nums;
+}
+
+.unit {
+    font-size: 1.2rem;
     opacity: 0.8;
 }
 
-.counter {
-    font-size: 3rem;
-    font-weight: 700;
-    font-variant-numeric: tabular-nums;
-    color: var(--gold);
-    text-shadow: 0 0 10px rgba(248, 178, 41, 0.5);
-    margin: 10px 0;
+.or-separator {
+    font-size: 0.9rem;
+    opacity: 0.5;
+    margin: 5px 0;
+    letter-spacing: 2px;
+}
+
+.future-text {
+    font-size: 1.2rem;
+    margin-top: 1.5rem;
+    font-weight: 300;
+    color: #aeb4c0;
+    letter-spacing: 1px;
+    animation: fadeIn 3s ease-in-out forwards;
 }
 
 .merry-christmas {
@@ -447,9 +484,9 @@ body {
     font-size: 4rem;
     color: var(--primary-red);
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5), 0 0 20px var(--primary-red);
-    margin-top: 20px;
+    margin-top: 15px;
     opacity: 0;
-    animation: fadeInUp 2s forwards 1s;
+    animation: fadeInUp 2s forwards 0.5s;
 }
 
 @keyframes fadeInUp {
@@ -476,12 +513,44 @@ body {
 
 /* Responsiveness */
 @media (max-width: 600px) {
+
+    /* Calendar Fix */
+    .calendar-wrapper {
+        transform: scale(0.85);
+    }
+
     .calendar-card {
-        width: 80%;
+        width: 280px;
+        /* Force fixed width to match rings */
+    }
+
+    /* Love Header Fix */
+    .love-header {
+        width: 100%;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    .name-left,
+    .name-right {
+        font-size: 1.5rem;
+        white-space: nowrap;
+    }
+
+    /* Tree Scene Fix */
+    #scene-tree {
+        flex-direction: column;
+        justify-content: center;
+        padding-top: 50px;
+        /* Space for header */
     }
 
     .tree-container {
-        transform: scale(0.8);
+        width: 300px;
+        height: 350px;
+        margin-bottom: 0px;
+        transform: none;
+        /* handle size via width/height */
     }
 
     .counter {
@@ -489,6 +558,6 @@ body {
     }
 
     .merry-christmas {
-        font-size: 3rem;
+        font-size: 2.5rem;
     }
 }
