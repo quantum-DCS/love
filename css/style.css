@@ -304,10 +304,10 @@ body {
     /* Love Header Fix */
     .love-header {
         position: relative !important;
-        width: 100%;
+        width: 100% !important;
         display: flex !important;
-        justify-content: center;
-        align-items: center;
+        justify-content: center !important;
+        align-items: center !important;
         gap: 12px;
         top: auto !important;
         left: auto !important;
@@ -326,14 +326,17 @@ body {
         display: inline-block;
         vertical-align: middle;
         transform: none !important;
+        text-align: center;
     }
 
     .css-heart {
         width: 25px;
         height: 25px;
-        transform: rotate(-45deg) !important;
         margin: 0;
         flex-shrink: 0;
+        /* Remove !important transform to allow animation to work */
+        transform: rotate(-45deg);
+        animation: heartbeat 1.5s infinite;
     }
 
 
