@@ -331,22 +331,16 @@ body {
         justify-content: flex-start;
         align-items: center;
         padding-top: 40px;
-        /* Reduced from 60px */
-        height: 100vh;
-        /* Use viewport height */
-        overflow-y: auto;
-        /* Allow scroll if needed */
-        overflow-x: hidden;
+        max-height: 100vh;
+        overflow: hidden;
+        /* Prevent scrolling */
         gap: 5px;
-        /* Reduced gap */
     }
 
     .tree-container {
         width: 100%;
         max-width: 280px;
-        /* Slightly smaller */
         height: 250px;
-        /* Further reduced */
         margin-bottom: 0px;
         transform: none;
         flex-shrink: 0;
@@ -358,7 +352,7 @@ body {
         max-width: 350px;
         margin-top: 0;
         padding-bottom: 30px;
-        /* Increased bottom padding for safety */
+        flex-shrink: 0;
     }
 
     .love-text {
